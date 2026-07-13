@@ -1,0 +1,71 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "blender-production-automation"
+version = "0.1.0"
+description = "Metadata-driven automation for Blender production asset workflows."
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+authors = [
+  { name = "Elia Youssef" }
+]
+keywords = [
+  "asset-management",
+  "automation",
+  "blender",
+  "digital-asset-management",
+  "pdf-processing"
+]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Environment :: Console",
+  "Operating System :: Microsoft :: Windows",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
+  "Topic :: Multimedia :: Graphics :: 3D Modeling",
+  "Topic :: Software Development :: Libraries :: Python Modules"
+]
+dependencies = [
+  "pdfplumber>=0.11,<0.12",
+  "pypdf>=6,<7"
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8,<10",
+  "ruff>=0.12"
+]
+
+[project.scripts]
+blender-production-automation = "blender_production_automation.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/Elia-Youssef/blender-production-automation"
+Issues = "https://github.com/Elia-Youssef/blender-production-automation/issues"
+Repository = "https://github.com/Elia-Youssef/blender-production-automation.git"
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+addopts = "-q --strict-markers"
+pythonpath = ["src"]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+extend-exclude = ["legacy", "tools"]
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I"]

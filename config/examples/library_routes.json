@@ -1,0 +1,18 @@
+{
+  "folder_name_template": "{pdf_stem}",
+  "fallback_root": "../../workspace/library/_Unsorted",
+  "routes": [
+    {
+      "match": "Example Nutrition CA",
+      "root": "../../workspace/library/example-nutrition-ca"
+    },
+    {
+      "match": "Example Nutrition US",
+      "root": "../../workspace/library/example-nutrition-us"
+    },
+    {
+      "match": "Sample Wellness AUS",
+      "root": "../../workspace/library/sample-wellness-aus"
+    }
+  ]
+}

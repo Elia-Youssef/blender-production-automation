@@ -1,0 +1,55 @@
+# Private production configuration and reports
+config/settings.local.json
+config/local/
+factors_project/
+
+# Local one-off and historical scripts retained outside the public package
+legacy/
+tools/
+
+# Production assets and source documents
+*.blend
+*.blend1
+*.blend2
+*.hdr
+*.exr
+*.pdf
+*.psd
+*.psb
+*.ai
+*.tif
+*.tiff
+*.png
+*.jpg
+*.jpeg
+renders/
+Renders-*/
+workspace/
+
+# Credentials and machine-local environment
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.coverage
+.pytest_cache/
+.ruff_cache/
+htmlcov/
+build/
+dist/
+.venv/
+venv/
+
+# Editors and operating systems
+.idea/
+.vscode/
+*.iml
+.DS_Store
+Thumbs.db
+desktop.ini

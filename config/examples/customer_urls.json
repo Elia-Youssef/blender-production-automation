@@ -1,0 +1,23 @@
+{
+  "Example Nutrition": {
+    "BOTTLE 100": {
+      "Example Nutrition CA": [
+        "https://example.com/work/example-nutrition/bottle-100",
+        "https://example.com/renders/example-nutrition/bottle-100",
+        "https://example.com/labels/example-nutrition/bottle-100"
+      ],
+      "Example Nutrition US": [
+        "https://example.com/work/example-nutrition-us/bottle-100",
+        "https://example.com/renders/example-nutrition-us/bottle-100",
+        "https://example.com/labels/example-nutrition-us/bottle-100"
+      ]
+    }
+  },
+  "Sample Wellness": {
+    "POUCH OL-123456A": [
+      "https://example.com/work/sample-wellness/pouch",
+      "https://example.com/renders/sample-wellness/pouch",
+      "https://example.com/labels/sample-wellness/pouch"
+    ]
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "source_folder": "../workspace/inbox",
+  "library_folder": "../workspace/library",
+  "data_folder": "./local",
+  "bottle_libraries": {
+    "Example Nutrition": "../workspace/bottle-libraries/example-nutrition",
+    "Sample Wellness": "../workspace/bottle-libraries/sample-wellness"
+  },
+  "customer_urls_filename": "customer_urls.json",
+  "customers_map_filename": "customers_map.json",
+  "library_routes_filename": "library_routes.json",
+  "default_urls": [],
+  "always_open_url": "",
+  "strict_prefix_match": true,
+  "pick_pdf_mode": "newest",
+  "overwrite_on_copy": false,
+  "hdri_filename": "studio_environment.hdr",
+  "log_level": "INFO"
+}
