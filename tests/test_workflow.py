@@ -5,6 +5,7 @@ import os
 from pathlib import Path
 
 from blender_production_automation.workflow import (
+    bottle_code_candidates,
     find_best_bottle_blend,
     find_best_customer_key,
     load_config,
@@ -124,6 +125,34 @@ def test_bottle_selection_matches_base_r_code_in_combined_key() -> None:
     assert select_bottle_key(keys, "BOX 8-R0819146") == "BOX A8692 OR R0819146"
 
 
+def test_wes_resolution_handles_compact_litre_bottle_and_acronym() -> None:
+    customers_map = {
+        "Natural Factors": ["Natural Factors", "Natural Factors-Whole Earth & Sea"]
+    }
+    customer_urls = {
+        "Natural Factors": {
+            "BOT 2.5 LITRE PCR": {
+                "Natural Factors": ["https://example.com/nf"],
+                "Natural Factors-Whole Earth & Sea": ["https://example.com/wes"],
+            }
+        }
+    }
+
+    result = resolve_url_context(
+        "Natural Factors (WES CANADA)",
+        "BOT2.5PCR (same as BOT2.5LITREWH)",
+        customers_map,
+        customer_urls,
+        ["https://example.com/default"],
+        subcustomer_hint="35535-2_WES_ProteinGreens_Chocolate_BOT2.5PCR_R7",
+    )
+
+    assert result.urls == ("https://example.com/wes",)
+    assert result.bottle_key == "BOT 2.5 LITRE PCR"
+    assert result.subcustomer_key == "Natural Factors-Whole Earth & Sea"
+    assert result.used_default_urls is False
+
+
 def test_pick_pdf_ignores_auxiliary_artwork(tmp_path: Path) -> None:
     proof = tmp_path / "12345-proof.pdf"
     auxiliary = tmp_path / "12345-DL.pdf"
@@ -140,6 +169,19 @@ def test_find_best_bottle_blend_uses_normalized_candidate(tmp_path: Path) -> Non
     (tmp_path / "EX-BOTTLE-200.blend").write_bytes(b"")
 
     assert find_best_bottle_blend(tmp_path, ["bottle 100"]) == expected
+
+
+def test_resolved_bottle_key_finds_spelled_out_litre_blend(tmp_path: Path) -> None:
+    expected = tmp_path / "NF-BOT2.5LITRE-PCR.blend"
+    expected.write_bytes(b"")
+
+    candidates = bottle_code_candidates(
+        "BOT2.5PCR (same as BOT2.5LITREWH)",
+        "bot25pcrsameasbot25litrewh",
+        "BOT 2.5 LITRE PCR",
+    )
+
+    assert find_best_bottle_blend(tmp_path, candidates) == expected
 
 
 def test_load_config_resolves_relative_paths(tmp_path: Path) -> None:

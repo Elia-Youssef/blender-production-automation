@@ -619,6 +619,11 @@ def urls_from_entry(entry: Any) -> Optional[List[str]]:
     return None
 
 
+def norm_bottle_unit_alias(value: Optional[str]) -> str:
+    """Normalize equivalent bottle codes that optionally spell out litre/liter."""
+    return re.sub(r"litres?|liters?", "", norm_loose(value))
+
+
 def select_bottle_key(keys: List[str], bottle_raw: Optional[str]) -> Optional[str]:
     # ---- Bottle selection (more deterministic) ----
     # PDF example: "CAN250ML (taller can)" should prefer JSON key containing "METAL" + "250"
@@ -651,7 +656,18 @@ def select_bottle_key(keys: List[str], bottle_raw: Optional[str]) -> Optional[st
         if code_candidates:
             bottle_key = min(code_candidates, key=lambda key: (len(norm_loose(key)), key))
 
-    # 4) Final fallback: anything containing the ml
+    # 4) Treat spelled-out litre/liter as optional in compact bottle codes.
+    #    Only use the primary value before descriptors such as "same as".
+    if not bottle_key:
+        primary_raw = re.split(r"(?i)\bsame\s+as\b", bottle_raw or "", maxsplit=1)[0]
+        raw_unit_alias = norm_bottle_unit_alias(primary_raw)
+        unit_candidates = [
+            key for key in keys if raw_unit_alias and norm_bottle_unit_alias(key) == raw_unit_alias
+        ]
+        if unit_candidates:
+            bottle_key = min(unit_candidates, key=lambda key: (len(norm_loose(key)), key))
+
+    # 5) Final fallback: anything containing the ml
     if not bottle_key and ml is not None:
         ml_candidates = [k for k in keys if str(ml) in norm_loose(k)]
         if ml_candidates:
@@ -681,7 +697,26 @@ def find_subcustomer_key_from_hint(sub_keys: List[str], hint: Optional[str]) -> 
     if not hint_loose:
         return None
 
-    matches = [key for key in sub_keys if norm_loose(key) and norm_loose(key) in hint_loose]
+    hint_words = set(re.findall(r"[a-z0-9]+", (hint or "").lower()))
+
+    def key_matches(key: str) -> bool:
+        key_loose = norm_loose(key)
+        if key_loose and key_loose in hint_loose:
+            return True
+
+        words = [
+            word
+            for word in re.findall(r"[a-z0-9]+", key.lower())
+            if word not in NOISE_CUSTOMER_TOKENS
+        ]
+        suffix_acronyms = {
+            "".join(word[0] for word in words[start:])
+            for start in range(len(words))
+            if len(words) - start >= 3
+        }
+        return bool(suffix_acronyms & hint_words)
+
+    matches = [key for key in sub_keys if key_matches(key)]
     if not matches:
         return None
     return max(matches, key=lambda key: (len(norm_loose(key)), key))
@@ -1348,6 +1383,7 @@ def copy_extra_bottle_assets_if_new(
     canonical_customer: Optional[str],
     bottle_raw: Optional[str],
     bottle_norm: Optional[str],
+    resolved_bottle_key: Optional[str],
     config: Config,
 ) -> None:
     """
@@ -1356,7 +1392,7 @@ def copy_extra_bottle_assets_if_new(
       - copy matching .blend and scifi_room_hdri.jpg into dest_folder
     When an existing job folder is reused, only fill missing .blend/HDRI files.
     """
-    if not bottle_norm:
+    if not bottle_norm and not resolved_bottle_key:
         return
 
     existing_files = {p.name.lower() for p in dest_folder.iterdir() if p.is_file()}
@@ -1376,7 +1412,12 @@ def copy_extra_bottle_assets_if_new(
     if created_new:
         open_in_explorer(bottle_root)
 
-    blend_candidates = bottle_code_candidates(bottle_raw, bottle_norm, dest_folder.name)
+    blend_candidates = bottle_code_candidates(
+        bottle_raw,
+        bottle_norm,
+        resolved_bottle_key,
+        dest_folder.name,
+    )
     blend_path = find_best_bottle_blend(bottle_root, blend_candidates) if needs_blend else None
     hdri_path = find_hdri_file(bottle_root, config.hdri_filename) if needs_hdri else None
 
@@ -1512,6 +1553,7 @@ def main(config: Optional[Config] = None) -> None:
         canonical_customer,
         bottle_raw,
         bottle_n,
+        url_context.bottle_key,
         config,
     )
 
