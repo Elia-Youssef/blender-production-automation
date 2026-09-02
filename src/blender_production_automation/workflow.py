@@ -646,12 +646,13 @@ def select_bottle_key(keys: List[str], bottle_raw: Optional[str]) -> Optional[st
     #    or the JSON key contains alternate codes, for example:
     #    BOX 8-R0819146 -> BOX A8692 OR R0819146.
     if not bottle_key:
-        raw_codes = {match.group(0).upper() for match in BOX_BASE_R_CODE_RE.finditer(bottle_raw or "")}
+        raw_codes = {
+            match.group(0).upper() for match in BOX_BASE_R_CODE_RE.finditer(bottle_raw or "")
+        }
         code_candidates = [
             key
             for key in keys
-            if raw_codes
-            & {match.group(0).upper() for match in BOX_BASE_R_CODE_RE.finditer(key)}
+            if raw_codes & {match.group(0).upper() for match in BOX_BASE_R_CODE_RE.finditer(key)}
         ]
         if code_candidates:
             bottle_key = min(code_candidates, key=lambda key: (len(norm_loose(key)), key))
@@ -817,9 +818,7 @@ def resolve_url_context(
                 list(bottle_entry.keys()), customer_raw, canonical, customers_map
             )
             sub_match_value = customer_raw
-            hint_key = find_subcustomer_key_from_hint(
-                list(bottle_entry.keys()), subcustomer_hint
-            )
+            hint_key = find_subcustomer_key_from_hint(list(bottle_entry.keys()), subcustomer_hint)
             if hint_key and (
                 not sub_key
                 or (hint_key != sub_key and is_parent_customer_variant(sub_key, canonical))

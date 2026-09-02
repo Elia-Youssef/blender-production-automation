@@ -92,9 +92,7 @@ def test_url_resolution_uses_matching_subcustomer() -> None:
 
 
 def test_url_resolution_uses_filename_subcustomer_hint() -> None:
-    customers_map = {
-        "Webber Naturals": ["Webber Naturals", "Webber Naturals Canada", "PGX Daily"]
-    }
+    customers_map = {"Webber Naturals": ["Webber Naturals", "Webber Naturals Canada", "PGX Daily"]}
     customer_urls = {
         "Webber Naturals": {
             "BOT 500WN": {
@@ -126,9 +124,7 @@ def test_bottle_selection_matches_base_r_code_in_combined_key() -> None:
 
 
 def test_wes_resolution_handles_compact_litre_bottle_and_acronym() -> None:
-    customers_map = {
-        "Natural Factors": ["Natural Factors", "Natural Factors-Whole Earth & Sea"]
-    }
+    customers_map = {"Natural Factors": ["Natural Factors", "Natural Factors-Whole Earth & Sea"]}
     customer_urls = {
         "Natural Factors": {
             "BOT 2.5 LITRE PCR": {
