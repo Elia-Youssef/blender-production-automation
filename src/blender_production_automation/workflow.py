@@ -216,7 +216,8 @@ def is_can_bottle(s: Optional[str]) -> bool:
 MAX_FIELD_LEN = 120
 CUSTOMER_TAIL_RE = re.compile(r"(?i)\bPLEASE INDICATE\b.*$")
 INTERNAL_CUSTOMER_RE = re.compile(r"(?i)^factors\s+group(?:\s+of\s+nutritional)?\b")
-BOX_DIE_CODE_RE = re.compile(r"(?i)(?<![A-Z0-9])R\d{6,8}(?!\d)")
+BOX_DIE_CODE_RE = re.compile(r"(?i)(?<![A-Z0-9])(?:\d+-)?R\d{6,8}(?!\d)")
+BOX_BASE_R_CODE_RE = re.compile(r"(?i)(?<![A-Z0-9])R\d{6,8}(?!\d)")
 BOX_DIE_LABEL_RE = re.compile(r"(?i)(?:\bDIE\b|CAD\s*#)")
 BOX_PROOF_CODE_RE = re.compile(r"(?i)\b(?:BCR|IFC)[A-Z]*\d+\b")
 POUCH_DIE_CODE_RE = re.compile(r"(?i)(?<![A-Z0-9])OL[_ -]?\d{6}[A-Z](?![A-Z0-9])")
@@ -618,6 +619,11 @@ def urls_from_entry(entry: Any) -> Optional[List[str]]:
     return None
 
 
+def norm_bottle_unit_alias(value: Optional[str]) -> str:
+    """Normalize equivalent bottle codes that optionally spell out litre/liter."""
+    return re.sub(r"litres?|liters?", "", norm_loose(value))
+
+
 def select_bottle_key(keys: List[str], bottle_raw: Optional[str]) -> Optional[str]:
     # ---- Bottle selection (more deterministic) ----
     # PDF example: "CAN250ML (taller can)" should prefer JSON key containing "METAL" + "250"
@@ -636,7 +642,33 @@ def select_bottle_key(keys: List[str], bottle_raw: Optional[str]) -> Optional[st
     if not bottle_key:
         bottle_key = best_key_loose(keys, bottle_raw)
 
-    # 3) Final fallback: anything containing the ml
+    # 3) Match the base R-code when a proof includes a numeric dieline prefix
+    #    or the JSON key contains alternate codes, for example:
+    #    BOX 8-R0819146 -> BOX A8692 OR R0819146.
+    if not bottle_key:
+        raw_codes = {
+            match.group(0).upper() for match in BOX_BASE_R_CODE_RE.finditer(bottle_raw or "")
+        }
+        code_candidates = [
+            key
+            for key in keys
+            if raw_codes & {match.group(0).upper() for match in BOX_BASE_R_CODE_RE.finditer(key)}
+        ]
+        if code_candidates:
+            bottle_key = min(code_candidates, key=lambda key: (len(norm_loose(key)), key))
+
+    # 4) Treat spelled-out litre/liter as optional in compact bottle codes.
+    #    Only use the primary value before descriptors such as "same as".
+    if not bottle_key:
+        primary_raw = re.split(r"(?i)\bsame\s+as\b", bottle_raw or "", maxsplit=1)[0]
+        raw_unit_alias = norm_bottle_unit_alias(primary_raw)
+        unit_candidates = [
+            key for key in keys if raw_unit_alias and norm_bottle_unit_alias(key) == raw_unit_alias
+        ]
+        if unit_candidates:
+            bottle_key = min(unit_candidates, key=lambda key: (len(norm_loose(key)), key))
+
+    # 5) Final fallback: anything containing the ml
     if not bottle_key and ml is not None:
         ml_candidates = [k for k in keys if str(ml) in norm_loose(k)]
         if ml_candidates:
@@ -658,6 +690,46 @@ def find_subcustomer_key(
 ) -> Optional[str]:
     del canonical, customers_map
     return find_best_customer_key(sub_keys, customer_raw)
+
+
+def find_subcustomer_key_from_hint(sub_keys: List[str], hint: Optional[str]) -> Optional[str]:
+    """Match a configured subcustomer explicitly named inside a filename or other hint."""
+    hint_loose = norm_loose(hint)
+    if not hint_loose:
+        return None
+
+    hint_words = set(re.findall(r"[a-z0-9]+", (hint or "").lower()))
+
+    def key_matches(key: str) -> bool:
+        key_loose = norm_loose(key)
+        if key_loose and key_loose in hint_loose:
+            return True
+
+        words = [
+            word
+            for word in re.findall(r"[a-z0-9]+", key.lower())
+            if word not in NOISE_CUSTOMER_TOKENS
+        ]
+        suffix_acronyms = {
+            "".join(word[0] for word in words[start:])
+            for start in range(len(words))
+            if len(words) - start >= 3
+        }
+        return bool(suffix_acronyms & hint_words)
+
+    matches = [key for key in sub_keys if key_matches(key)]
+    if not matches:
+        return None
+    return max(matches, key=lambda key: (len(norm_loose(key)), key))
+
+
+def is_parent_customer_variant(candidate: Optional[str], canonical: Optional[str]) -> bool:
+    """Return whether a key is the canonical parent brand with only regional qualifiers."""
+    if not candidate or not canonical:
+        return False
+    candidate_brand = customer_tokens(candidate) - REGION_TOKENS
+    canonical_brand = customer_tokens(canonical) - REGION_TOKENS
+    return bool(candidate_brand) and candidate_brand == canonical_brand
 
 
 def default_url_resolution(
@@ -683,6 +755,8 @@ def resolve_url_context(
     customers_map: Dict[str, List[str]],
     customer_urls: CustomerUrlsType,
     default_urls: Iterable[str],
+    *,
+    subcustomer_hint: Optional[str] = None,
 ) -> UrlResolution:
     """
     Resolve parent, bottle key, subcustomer key, and URLs as one context.
@@ -743,6 +817,19 @@ def resolve_url_context(
             sub_key = find_subcustomer_key(
                 list(bottle_entry.keys()), customer_raw, canonical, customers_map
             )
+            sub_match_value = customer_raw
+            hint_key = find_subcustomer_key_from_hint(list(bottle_entry.keys()), subcustomer_hint)
+            if hint_key and (
+                not sub_key
+                or (hint_key != sub_key and is_parent_customer_variant(sub_key, canonical))
+            ):
+                sub_key = hint_key
+                sub_match_value = sub_key
+                LOG.info(
+                    "Subcustomer '%s' inferred from hint '%s'.",
+                    sub_key,
+                    subcustomer_hint,
+                )
             if not sub_key:
                 continue
 
@@ -751,7 +838,7 @@ def resolve_url_context(
             if not sub_urls:
                 continue
 
-            sub_score = max(score_customer_key(sub_key, customer_raw), 0)
+            sub_score = max(score_customer_key(sub_key, sub_match_value), 0)
             resolution = UrlResolution(
                 urls=tuple(sub_urls),
                 canonical_customer=canonical,
@@ -1295,6 +1382,7 @@ def copy_extra_bottle_assets_if_new(
     canonical_customer: Optional[str],
     bottle_raw: Optional[str],
     bottle_norm: Optional[str],
+    resolved_bottle_key: Optional[str],
     config: Config,
 ) -> None:
     """
@@ -1303,7 +1391,7 @@ def copy_extra_bottle_assets_if_new(
       - copy matching .blend and scifi_room_hdri.jpg into dest_folder
     When an existing job folder is reused, only fill missing .blend/HDRI files.
     """
-    if not bottle_norm:
+    if not bottle_norm and not resolved_bottle_key:
         return
 
     existing_files = {p.name.lower() for p in dest_folder.iterdir() if p.is_file()}
@@ -1323,7 +1411,12 @@ def copy_extra_bottle_assets_if_new(
     if created_new:
         open_in_explorer(bottle_root)
 
-    blend_candidates = bottle_code_candidates(bottle_raw, bottle_norm, dest_folder.name)
+    blend_candidates = bottle_code_candidates(
+        bottle_raw,
+        bottle_norm,
+        resolved_bottle_key,
+        dest_folder.name,
+    )
     blend_path = find_best_bottle_blend(bottle_root, blend_candidates) if needs_blend else None
     hdri_path = find_hdri_file(bottle_root, config.hdri_filename) if needs_hdri else None
 
@@ -1420,6 +1513,7 @@ def main(config: Optional[Config] = None) -> None:
         customers_map,
         customer_urls,
         config.default_urls,
+        subcustomer_hint=pdf_path.stem,
     )
     if url_context.canonical_customer:
         canonical_customer = url_context.canonical_customer
@@ -1458,6 +1552,7 @@ def main(config: Optional[Config] = None) -> None:
         canonical_customer,
         bottle_raw,
         bottle_n,
+        url_context.bottle_key,
         config,
     )
 

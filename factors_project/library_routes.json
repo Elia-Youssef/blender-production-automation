@@ -1,0 +1,414 @@
+{
+  "routes": [
+    {
+      "match": "3 Brains US",
+      "root": "G:\\NF-Bottles\\Natural-Factors-US"
+    },
+    {
+      "match": "3 Brains",
+      "root": "G:\\NF-Bottles\\Natural-Factors-CA"
+    },
+    {
+      "match": "Al Dawaa, KSA",
+      "root": "G:\\NF-Bottles\\Al-Dawaa-KSA"
+    },
+    {
+      "match": "Alpha Health Products (AND)",
+      "root": "G:\\NF-Bottles\\Alpha-Health-Products-AND"
+    },
+    {
+      "match": "Assured Natural Distribution",
+      "root": "G:\\NF-Bottles\\Assured-Natural-Distribution"
+    },
+    {
+      "match": "Assured Naturals",
+      "root": "G:\\NF-Bottles\\Assured-Natural-Distribution"
+    },
+    {
+      "match": "Assured Naturals Distribution",
+      "root": "G:\\NF-Bottles\\Assured-Natural-Distribution"
+    },
+    {
+      "match": "Big Friends US",
+      "root": "G:\\NF-Bottles\\Natural-Factors-US"
+    },
+    {
+      "match": "Big Friends",
+      "root": "G:\\NF-Bottles\\Natural-Factors-CA"
+    },
+    {
+      "match": "BioSil US",
+      "root": "G:\\NF-Bottles\\Prefered-Nutrition-Ca"
+    },
+    {
+      "match": "BioSil",
+      "root": "G:\\NF-Bottles\\Prefered-Nutrition-Ca"
+    },
+    {
+      "match": "Bioclinic Naturals AUS",
+      "root": "G:\\NF-Bottles\\Bioclinic-Naturals-AUS"
+    },
+    {
+      "match": "Bioclinic Naturals Australia",
+      "root": "G:\\NF-Bottles\\Bioclinic-Naturals-AUS"
+    },
+    {
+      "match": "Bioclinic Naturals - AUSTRALIA",
+      "root": "G:\\NF-Bottles\\Bioclinic-Naturals-AUS"
+    },
+    {
+      "match": "Bioclinic Naturals",
+      "root": "G:\\NF-Bottles\\Bioclinic-Naturals-CA"
+    },
+    {
+      "match": "Bioclinic Naturals US",
+      "root": "G:\\NF-Bottles\\Bioclinic-Naturals-US"
+    },
+    {
+      "match": "Bright Naturals China",
+      "root": "G:\\NF-Bottles\\WebberNaturals-Asia"
+    },
+    {
+      "match": "Dermazone KSA",
+      "root": "G:\\NF-Bottles\\Dermazone-KSA"
+    },
+    {
+      "match": "Dermazone, KSA",
+      "root": "G:\\NF-Bottles\\Dermazone-KSA"
+    },
+    {
+      "match": "Dermazone, KSA (WN Export)",
+      "root": "G:\\NF-Bottles\\Dermazone-KSA"
+    },
+    {
+      "match": "EchinaMax",
+      "root": "G:\\NF-Bottles\\Webber-Naturals-Ca"
+    },
+    {
+      "match": "Femme Calm",
+      "root": "G:\\NF-Bottles\\Webber-Naturals-Ca"
+    },
+    {
+      "match": "Health Balance (Costco)",
+      "root": "G:\\NF-Bottles\\Health-Balance-CA"
+    },
+    {
+      "match": "Health Balance",
+      "root": "G:\\NF-Bottles\\Health-Balance-CA"
+    },
+    {
+      "match": "Hero",
+      "root": "G:\\NF-Bottles\\Webber-Naturals-Ca"
+    },
+    {
+      "match": "Holista (Dermazone, UAE)",
+      "root": "G:\\NF-Bottles\\Holista-Dermazone-KSA"
+    },
+    {
+      "match": "Holista Health AUS",
+      "root": "G:\\NF-Bottles\\Holista-Health-AUS"
+    },
+    {
+      "match": "Holista Health Australia",
+      "root": "G:\\NF-Bottles\\Holista-Health-AUS"
+    },
+    {
+      "match": "Holista Health CA",
+      "root": "G:\\NF-Bottles\\Holista-Health-CA"
+    },
+    {
+      "match": "Holista Health Canada",
+      "root": "G:\\NF-Bottles\\Holista-Health-CA"
+    },
+    {
+      "match": "Holista Health, Canada",
+      "root": "G:\\NF-Bottles\\Holista-Health-CA"
+    },
+    {
+      "match": "Holista Health KSA",
+      "root": "G:\\NF-Bottles\\Holista-Dermazone-KSA"
+    },
+    {
+      "match": "Kirkland AUS",
+      "root": "G:\\NF-Bottles\\Kirkland-Signature-Costco-AUS"
+    },
+    {
+      "match": "Kirkland Canada",
+      "root": "G:\\NF-Bottles\\Kirkland-Signature-CA"
+    },
+    {
+      "match": "Kirkland Japan",
+      "root": "G:\\NF-Bottles\\Kirkland-Signature-Costco-Japan"
+    },
+    {
+      "match": "Kirkland Korea",
+      "root": "G:\\NF-Bottles\\Kirkland-Signature-Costco-Korea"
+    },
+    {
+      "match": "Kirkland Taiwan",
+      "root": "G:\\NF-Bottles\\Kirkland-Signature-Costco-Taiwan"
+    },
+    {
+      "match": "Kirkland US",
+      "root": "G:\\NF-Bottles\\Kirkland-Signature-Costco-US"
+    },
+    {
+      "match": "Kirkland Signature (Costco, Canada)",
+      "root": "G:\\NF-Bottles\\Kirkland-Signature-CA"
+    },
+    {
+      "match": "Kirkland Signature (Costco AUS/NZ)",
+      "root": "G:\\NF-Bottles\\Kirkland-Signature-Costco-AUS"
+    },
+    {
+      "match": "Kirkland Signature (Costco JAPAN)",
+      "root": "G:\\NF-Bottles\\Kirkland-Signature-Costco-Japan"
+    },
+    {
+      "match": "Kirkland Signature (Korea)",
+      "root": "G:\\NF-Bottles\\Kirkland-Signature-Costco-Korea"
+    },
+    {
+      "match": "Kirkland Signature (Costco Taiwan)",
+      "root": "G:\\NF-Bottles\\Kirkland-Signature-Costco-Taiwan"
+    },
+    {
+      "match": "Kirkland Signature (Costco, US)",
+      "root": "G:\\NF-Bottles\\Kirkland-Signature-Costco-US"
+    },
+    {
+      "match": "Medi C - Assured Naturals Distribution",
+      "root": "G:\\NF-Bottles\\Assured-Natural-Distribution"
+    },
+    {
+      "match": "MediC Plus",
+      "root": "G:\\NF-Bottles\\Assured-Natural-Distribution"
+    },
+    {
+      "match": "Meta Slim",
+      "root": "G:\\NF-Bottles\\Webber-Naturals-Ca"
+    },
+    {
+      "match": "Natural Factors Greece",
+      "root": "G:\\NF-Bottles\\Natural-Factors-Greece"
+    },
+    {
+      "match": "Natural Factors AUS",
+      "root": "G:\\NF-Bottles\\Natural-Factors-WES-AUS"
+    },
+    {
+      "match": "Natural Factors Australia",
+      "root": "G:\\NF-Bottles\\Natural-Factors-WES-AUS"
+    },
+    {
+      "match": "Natural Factors US",
+      "root": "G:\\NF-Bottles\\Natural-Factors-US"
+    },
+    {
+      "match": "Natural Factors",
+      "root": "G:\\NF-Bottles\\Natural-Factors-CA"
+    },
+    {
+      "match": "Apollonian Nutrition - Greece",
+      "root": "G:\\NF-Bottles\\Natural-Factors-Greece"
+    },
+    {
+      "match": "Natural Factors (Vitamin Shop)",
+      "root": "G:\\NF-Bottles\\Natural-Factors-Vitamin-Shop"
+    },
+    {
+      "match": "Natural Factors AUSTRALIA (WES)",
+      "root": "G:\\NF-Bottles\\Natural-Factors-WES-AUS"
+    },
+    {
+      "match": "Natural Factors-Whole Earth & Sea AUS",
+      "root": "G:\\NF-Bottles\\Natural-Factors-WES-AUS"
+    },
+    {
+      "match": "Natural Factors-Whole Earth & Sea Australia",
+      "root": "G:\\NF-Bottles\\Natural-Factors-WES-AUS"
+    },
+    {
+      "match": "Natural Factors-Whole Earth & Sea",
+      "root": "G:\\NF-Bottles\\Natural-Factors-WES-CA"
+    },
+    {
+      "match": "Natural Factors-Whole Earth & Sea US",
+      "root": "G:\\NF-Bottles\\Natural-Factors-WES-US"
+    },
+    {
+      "match": "PGX",
+      "root": "G:\\NF-Bottles\\Webber-Naturals-Ca"
+    },
+    {
+      "match": "PGX Daily",
+      "root": "G:\\NF-Bottles\\Webber-Naturals-Ca"
+    },
+    {
+      "match": "PGX Daily US",
+      "root": "G:\\NF-Bottles\\Webber-Naturals-Ca"
+    },
+    {
+      "match": "Preferred Nutrition",
+      "root": "G:\\NF-Bottles\\Prefered-Nutrition-Ca"
+    },
+    {
+      "match": "Preferred Nutrition (WomenSense)",
+      "root": "G:\\NF-Bottles\\Prefered-Nutrition-WS"
+    },
+    {
+      "match": "Sealicious",
+      "root": "G:\\NF-Bottles\\Natural-Factors-CA"
+    },
+    {
+      "match": "Sesame Street US",
+      "root": "G:\\NF-Bottles\\Webber-Naturals-Sesame-Street"
+    },
+    {
+      "match": "Sesame Street",
+      "root": "G:\\NF-Bottles\\Webber-Naturals-Sesame-Street"
+    },
+    {
+      "match": "Sesame Street (WN)",
+      "root": "G:\\NF-Bottles\\Webber-Naturals-Sesame-Street"
+    },
+    {
+      "match": "Total Body Collagen",
+      "root": "G:\\NF-Bottles\\Total-Body-Collagen-CA"
+    },
+    {
+      "match": "Total Body Collagen US",
+      "root": "G:\\NF-Bottles\\Total-Body-Collagen-US"
+    },
+    {
+      "match": "TruNature Taiwan",
+      "root": "G:\\NF-Bottles\\Webber-Naturals-Costco-Taiwan"
+    },
+    {
+      "match": "TruNature US",
+      "root": "G:\\NF-Bottles\\Trunature-Costco-US"
+    },
+    {
+      "match": "TruNature",
+      "root": "G:\\NF-Bottles\\Trunature-Costco-US"
+    },
+    {
+      "match": "TruNature (Costco, US)",
+      "root": "G:\\NF-Bottles\\Trunature-Costco-US"
+    },
+    {
+      "match": "Ultimate Nutrition",
+      "root": "G:\\NF-Bottles\\Ultimate-Nutrition"
+    },
+    {
+      "match": "Preferred Nutrition - Brad King",
+      "root": "G:\\NF-Bottles\\Ultimate-Nutrition"
+    },
+    {
+      "match": "Vegi Day US",
+      "root": "G:\\NF-Bottles\\Assured-Natural-Distribution"
+    },
+    {
+      "match": "Vegi Day",
+      "root": "G:\\NF-Bottles\\Assured-Natural-Distribution"
+    },
+    {
+      "match": "Webber Naturals AUS",
+      "root": "G:\\NF-Bottles\\Webber-Naturals-Costco-AUS"
+    },
+    {
+      "match": "Webber Naturals China",
+      "root": "G:\\NF-Bottles\\WebberNaturals-Asia"
+    },
+    {
+      "match": "Webber Naturals EU",
+      "root": "G:\\NF-Bottles\\Webber-Naturals-EU"
+    },
+    {
+      "match": "Webber Naturals France Spain",
+      "root": "G:\\NF-Bottles\\Webber-Naturals-EU"
+    },
+    {
+      "match": "Webber Naturals Iraq",
+      "root": "G:\\NF-Bottles\\Webber-Naturals-Iraq"
+    },
+    {
+      "match": "Webber Naturals Japan",
+      "root": "G:\\NF-Bottles\\WebberNaturals-Asia"
+    },
+    {
+      "match": "Webber Naturals Mongolia",
+      "root": "G:\\NF-Bottles\\WebberNaturals-Asia"
+    },
+    {
+      "match": "Webber Naturals Philippines",
+      "root": "G:\\NF-Bottles\\Webber-Naturals-Philippines"
+    },
+    {
+      "match": "Webber Naturals Slovakia",
+      "root": "G:\\NF-Bottles\\Webber-Naturals-EU"
+    },
+    {
+      "match": "Webber Naturals Taiwan",
+      "root": "G:\\NF-Bottles\\Webber-Naturals-Costco-Taiwan"
+    },
+    {
+      "match": "Webber Naturals UAE",
+      "root": "G:\\NF-Bottles\\Webber-Naturals-UAE"
+    },
+    {
+      "match": "Webber Naturals UK",
+      "root": "G:\\NF-Bottles\\Webber-Naturals-Costco-UK"
+    },
+    {
+      "match": "Webber Naturals US",
+      "root": "G:\\NF-Bottles\\Webber-Naturals-US"
+    },
+    {
+      "match": "Webber Naturals Lebanon",
+      "root": "G:\\NF-Bottles\\WebberNaturals-Asia"
+    },
+    {
+      "match": "Webber Naturals",
+      "root": "G:\\NF-Bottles\\Webber-Naturals-Ca"
+    },
+    {
+      "match": "Webber Naturals US (Amazon)",
+      "root": "G:\\NF-Bottles\\Webber-Naturals-US"
+    },
+    {
+      "match": "Webber Naturals (Amazon, US)",
+      "root": "G:\\NF-Bottles\\Webber-Naturals-US"
+    },
+    {
+      "match": "Webber Naturals (Costco, AUS-NZ)",
+      "root": "G:\\NF-Bottles\\Webber-Naturals-Costco-AUS"
+    },
+    {
+      "match": "Webber Naturals (Costco, Taiwan)",
+      "root": "G:\\NF-Bottles\\Webber-Naturals-Costco-Taiwan"
+    },
+    {
+      "match": "Webber Naturals (Costco UK)",
+      "root": "G:\\NF-Bottles\\Webber-Naturals-Costco-UK"
+    },
+    {
+      "match": "Webber Naturals - US- Costco",
+      "root": "G:\\NF-Bottles\\Webber-Naturals-Costco-US"
+    },
+    {
+      "match": "Lusitano, Inc - Philippines (WN)",
+      "root": "G:\\NF-Bottles\\Webber-Naturals-Philippines"
+    },
+    {
+      "match": "Lusitano, Inc — Philippines (WN)",
+      "root": "G:\\NF-Bottles\\Webber-Naturals-Philippines"
+    },
+    {
+      "match": "Webber Naturals (Xcentric, Kenya)",
+      "root": "G:\\NF-Bottles\\Webber-Naturals-Xcentric-Kenya"
+    }
+  ],
+  "folder_name_template": "{pdf_stem}",
+  "fallback_root": "G:\\NF-Bottles\\_Unsorted"
+}
